@@ -50,8 +50,6 @@ async function run() {
             console.log(result);
         })
 
-        
-
         app.post('/craftItem', async (req, res) => {
             const newCraftItem = req.body;
             console.log(newCraftItem);
@@ -60,6 +58,12 @@ async function run() {
 
         });
 
+        app.delete('/craftItem/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: new ObjectId(id) };
+            const result = await handiCraftsCollection.deleteOne(query);
+            res.send(result);
+        })
         // user
 
         app.post('/user', async (req, res) => {
