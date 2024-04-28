@@ -25,7 +25,7 @@ async function run() {
         // Connect the client to the server	(optional starting in v4.7)
         // await client.connect();
         const handiCraftsCollection = client.db('handiCraftsDB').collection('handiCrafts');
-
+        const userCollection = client.db('userDB').collection('user');
         app.get('/craftItem', async (req, res) => {
             const cursor = handiCraftsCollection.find();
             const result = await cursor.toArray();
@@ -48,9 +48,15 @@ async function run() {
 
         });
 
+        // user
 
+        app.post('/user', async (req, res) => {
+            const newUser = req.body;
+            console.log(newUser);
+            const result = await userCollection.insertOne(newUser);
+            res.send(result);
 
-
+        })
 
         // Send a ping to confirm a successful connection
         // await client.db("admin").command({ ping: 1 });
