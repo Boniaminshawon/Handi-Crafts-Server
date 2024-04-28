@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const app = express();
 const port = process.env.PORT || 5000;
 
@@ -26,7 +26,19 @@ async function run() {
         // await client.connect();
         const handiCraftsCollection = client.db('handiCraftsDB').collection('handiCrafts');
 
+        app.get('/craftItem', async (req, res) => {
+            const cursor = handiCraftsCollection.find();
+            const result = await cursor.toArray();
+            res.send(result);
+        });
 
+        app.get('/craftItem/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: new ObjectId(id) };
+            const result = await handiCraftsCollection.findOne(query);
+            res.send(result);
+
+        });
 
         app.post('/craftItem', async (req, res) => {
             const newCraftItem = req.body;
@@ -34,8 +46,8 @@ async function run() {
             const result = await handiCraftsCollection.insertOne(newCraftItem);
             res.send(result);
 
-        })
-           
+        });
+
 
 
 
