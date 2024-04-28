@@ -26,6 +26,7 @@ async function run() {
         // await client.connect();
         const handiCraftsCollection = client.db('handiCraftsDB').collection('handiCrafts');
         const userCollection = client.db('userDB').collection('user');
+
         app.get('/craftItem', async (req, res) => {
             const cursor = handiCraftsCollection.find();
             const result = await cursor.toArray();
@@ -39,6 +40,17 @@ async function run() {
             res.send(result);
 
         });
+
+        app.get('/myCraftItem/:email', async (req, res) => {
+            console.log(req.params.email);
+
+            const result = await handiCraftsCollection.find({ email: req.params.email }).toArray();
+
+            res.send(result);
+            console.log(result);
+        })
+
+        
 
         app.post('/craftItem', async (req, res) => {
             const newCraftItem = req.body;
