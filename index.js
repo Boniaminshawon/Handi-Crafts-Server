@@ -58,6 +58,31 @@ async function run() {
 
         });
 
+
+        app.put('/craftItem/:id', async (req, res) => {
+            const id = req.params.id;
+            const filter = { _id: new ObjectId(id) };
+            const options = { upsert: true };
+            const updatedCraft = req.body;
+            const craft = {
+                $set: {
+
+                    item: updatedCraft.item,
+                    category: updatedCraft.category,
+                    image: updatedCraft.image,
+                    stock: updatedCraft.stock,
+                    customize: updatedCraft.customize,
+                    price: updatedCraft.price,
+                    rating: updatedCraft.rating,
+                    processing: updatedCraft.processing,
+                    description: updatedCraft.description
+
+                }
+            };
+            const result = await handiCraftsCollection.updateOne(filter, craft, options);
+            res.send(result);
+        })
+
         app.delete('/craftItem/:id', async (req, res) => {
             const id = req.params.id;
             const query = { _id: new ObjectId(id) };
