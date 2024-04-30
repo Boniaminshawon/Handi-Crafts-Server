@@ -35,6 +35,14 @@ async function run() {
             res.send(result);
         })
 
+        app.get('/subCategories/:category', async (req, res) => {
+            
+
+            const result = await handiCraftsCollection.find({ category: req.params.category }).toArray();
+
+            res.send(result);
+            console.log(result);
+        })
         app.get('/blogs', async (req, res) => {
             const cursor = blogCollection.find();
             const result = await cursor.toArray();
