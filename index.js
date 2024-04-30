@@ -32,8 +32,14 @@ async function run() {
             const cursor = blogCollection.find();
             const result = await cursor.toArray();
             res.send(result);
-            console.log(result);
         })
+        app.get('/blogs/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: new ObjectId(id) };
+            const result = await blogCollection.findOne(query);
+            res.send(result);
+        })
+        
         app.get('/craftItem', async (req, res) => {
             const cursor = handiCraftsCollection.find();
             const result = await cursor.toArray();
