@@ -25,8 +25,15 @@ async function run() {
         // Connect the client to the server	(optional starting in v4.7)
         // await client.connect();
         const handiCraftsCollection = client.db('handiCraftsDB').collection('handiCrafts');
+        const blogCollection = client.db('handiCraftsDB').collection('blogs');
         const userCollection = client.db('userDB').collection('user');
 
+        app.get('/blogs', async (req, res) => {
+            const cursor = blogCollection.find();
+            const result = await cursor.toArray();
+            res.send(result);
+            console.log(result);
+        })
         app.get('/craftItem', async (req, res) => {
             const cursor = handiCraftsCollection.find();
             const result = await cursor.toArray();
