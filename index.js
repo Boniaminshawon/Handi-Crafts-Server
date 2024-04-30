@@ -27,6 +27,13 @@ async function run() {
         const handiCraftsCollection = client.db('handiCraftsDB').collection('handiCrafts');
         const blogCollection = client.db('handiCraftsDB').collection('blogs');
         const userCollection = client.db('userDB').collection('user');
+        const subCategoriesCollection = client.db('handiCraftsDB').collection('sub-categories');
+
+        app.get('/subCategories', async (req, res) => {
+            const cursor = subCategoriesCollection.find();
+            const result = await cursor.toArray();
+            res.send(result);
+        })
 
         app.get('/blogs', async (req, res) => {
             const cursor = blogCollection.find();
@@ -39,7 +46,7 @@ async function run() {
             const result = await blogCollection.findOne(query);
             res.send(result);
         })
-        
+
         app.get('/craftItem', async (req, res) => {
             const cursor = handiCraftsCollection.find();
             const result = await cursor.toArray();
